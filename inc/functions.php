@@ -165,7 +165,7 @@ function eventbrite_event_meta() {
 					'class' => array(),
 				),
 			) ),
-			esc_url( eventbrite_venue_get_archive_link() ),
+			esc_url( eventbrite_event_eb_url() ),
 			esc_html( eventbrite_event_venue()->name )
 		);
 	}
@@ -179,7 +179,7 @@ function eventbrite_event_meta() {
 					'class' => array(),
 				),
 			) ),
-			esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
+			esc_url( eventbrite_event_eb_url() ),
 			esc_html( get_the_author() )
 		);
 	}
@@ -190,7 +190,7 @@ function eventbrite_event_meta() {
 		$url = add_query_arg( array( 'ref' => 'wporglink' ), eventbrite_event_eb_url() );
 	} else {
 		// Link to the event single view.
-		$url = get_the_permalink();
+		$url = eventbrite_event_eb_url();
 	}
 
 	$details = sprintf( '%s<span class="event-details"><a class="event-details-link" href="%s"><span class="event-details-text">%s</span></a></span>',
@@ -363,10 +363,20 @@ if ( ! function_exists( 'eventbrite_ticket_form_widget' ) ) :
  * Insert the Eventbrite ticket form widget.
  */
 function eventbrite_ticket_form_widget() {
+	// Extract EB ID from URL
+	$event_url = parse_url(eventbrite_event_eb_url());
+	$matches = array();
+	if (preg_match('#(\d+)$#', $event_url["path"], $matches)) {
+	    $event_id = $matches[0];
+	}
+	else {
+		$event_id = get_the_ID();
+	}
+
 	// Build the src attribute URL.
 	$src = add_query_arg( array(
-			'eid' => get_the_ID(),
-			'ref' => 'etckt',
+			'eid' => $event_id,
+			'ref' => 'wporgetckt',
 	), '//eventbrite.com/tickets-external' );
 
 	// Assemble our ticket info HTML.
