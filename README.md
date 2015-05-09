@@ -1,6 +1,7 @@
 # Eventbrite API WordPress Plugin
 
-The Eventbrite API plugin brings the power of Eventbrite to WordPress, for both users and developers.
+Eventbrite API plugin for Wordpress. Altered for non-compatible themes.
+The Eventbrite from Automattic is a fantastic plugin. All credit belongs to Automattic. This version carries the small changes I needed to make for a non-eventbrite-compatible theme to work. 
 
 ## Overview
 
